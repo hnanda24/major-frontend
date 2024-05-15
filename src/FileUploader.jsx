@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { v4 } from 'uuid'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { imageDB } from './firebaseConfig'
+import { MdOutlineFileUpload } from 'react-icons/md'
+
 import axios from 'axios'
 
 function FileUploader() {
@@ -92,13 +94,22 @@ function FileUploader() {
 
   return (
     <div className='flex flex-col gap-4 p-4'>
-      <div className='flex flex-col items-start gap-2'>
+      <div className='flex flex-col items-start gap-2 border-gray-300 px-4 py-2 border-2'>
         <input
+          id='file-upload'
           type='file'
           onChange={handleFileChange}
           multiple
-          className='file-input'
+          className='hidden'
         />
+
+        <label
+          htmlFor='file-upload'
+          className='flex items-center gap-2 px-4 py-2 font-semibold bg-[#72d5ff] text-white rounded-2xl cursor-pointer hover:bg-blue-600 transition-colors'
+        >
+          <MdOutlineFileUpload className='text-lg' />
+          Choose Files
+        </label>
         {submited ? (
           <button className='px-4 py-2 font-semibold bg-gray-400 text-gray-700 rounded-lg cursor-not-allowed'>
             Submitted
