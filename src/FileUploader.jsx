@@ -6,6 +6,7 @@ import axios from 'axios'
 
 function FileUploader() {
   const [images, setImages] = useState([])
+  const [prediction, setPrediction] = useState('')
   const [previewUrls, setPreviewUrls] = useState([])
   const [downloadUrl, setDownloadUrl] = useState([])
   const [submitting, setSubmitting] = useState(false)
@@ -72,14 +73,15 @@ function FileUploader() {
       setDownloadUrl(urls)
       setSubmitting(false)
       setSubmited(true)
-      // console.log(urls)
+      // console.log(urls[0])
       // Make the POST request using the URLs directly from the `urls` array
       // if (urls.length > 0) {
       const response = await axios.post(
         'api',
         { url: urls[0] } // use the first URL from the array
       )
-      //   console.log(response.data.predicted)
+      setPrediction(response.data.prediction[0])
+      console.log(response.data.prediction[0])
       // }
 
       // Log the URLs periodically if needed
@@ -109,6 +111,10 @@ function FileUploader() {
             Submit
           </button>
         )}
+        <div className='flex gap-2 items-center'>
+          <h2 className='font-bold text-xl'>Result:</h2>
+          <h3 className='font-semibold text-lg'>{prediction}</h3>
+        </div>
       </div>
 
       {submitting ? (
