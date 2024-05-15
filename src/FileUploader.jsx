@@ -66,37 +66,44 @@ function FileUploader() {
         await uploadBytes(imageRef, compressedImage)
         const url = await getDownloadURL(imageRef)
         urls.push(url)
-        // console.log('Download URL:', url)
       }
+
+      // Set the download URLs in state
       setDownloadUrl(urls)
       setSubmitting(false)
       setSubmited(true)
-      const response = axios.post(
-        'https://f5e9b078-e262-43e1-acd7-8c768aa92f23-00-2s9q7md1dldiu.spock.replit.dev/post-string',
-        { data: { url: downloadUrl } }
+      // console.log(urls)
+      // Make the POST request using the URLs directly from the `urls` array
+      // if (urls.length > 0) {
+      const response = await axios.post(
+        'api',
+        { url: urls[0] } // use the first URL from the array
       )
-      console.log(response)
+      //   console.log(response.data.predicted)
+      // }
+
+      // Log the URLs periodically if needed
     } catch (error) {
       console.error('Error compressing/uploading image:', error)
     }
   }
 
   return (
-    <div className='flex flex-col w-full gap-4'>
-      <div>
+    <div className='flex flex-col gap-4 p-4'>
+      <div className='flex flex-col items-start gap-2'>
         <input
           type='file'
           onChange={handleFileChange}
           multiple
+          className='file-input'
         />
         {submited ? (
-          <button className='px-2 py-1 font-semibold bg-gray-200 rounded-lg cursor-not-allowed'>
-            {' '}
-            Sumbitted{' '}
+          <button className='px-4 py-2 font-semibold bg-gray-400 text-gray-700 rounded-lg cursor-not-allowed'>
+            Submitted
           </button>
         ) : (
           <button
-            className='px-2 py-1 font-semibold bg-gray-200 rounded-lg'
+            className='px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors'
             onClick={handleClick}
           >
             Submit
@@ -105,24 +112,24 @@ function FileUploader() {
       </div>
 
       {submitting ? (
-        <h1>Submitting...</h1>
+        <h1 className='text-lg font-semibold text-gray-700'>Submitting...</h1>
       ) : submited ? (
-        <h2>Submitted</h2>
+        <h2 className='text-lg font-semibold text-green-500'>Submitted</h2>
       ) : (
-        <div className='flex w-full gap-2 overflow-x-scroll'>
+        <div className='flex flex-wrap gap-4'>
           {previewUrls.map((url, index) => (
             <div
               key={index}
-              className='relative flex-shrink-0 w-96 h-96'
+              className='relative flex-shrink-0 w-48 h-48 md:w-64 md:h-64'
             >
               <img
                 src={url}
-                className='object-cover w-full h-full'
+                className='object-cover w-full h-full rounded-lg'
                 alt={`Preview Image ${index}`}
               />
               <button
                 onClick={() => handleDelete(index)}
-                className='absolute px-2 py-1 text-white bg-red-500 rounded-full top-2 left-2'
+                className='absolute top-2 left-2 px-2 py-1 text-white bg-red-500 rounded-full hover:bg-red-600 transition-colors'
               >
                 Delete
               </button>
