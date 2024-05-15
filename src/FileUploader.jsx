@@ -94,7 +94,7 @@ function FileUploader() {
 
   return (
     <div className='flex flex-col gap-4 p-4'>
-      <div className='flex flex-col items-start gap-2 border-gray-300 px-4 py-2 border-2'>
+      <div className='flex flex-col items-center gap-2 border-gray-300 px-4 py-2 border-2'>
         <input
           id='file-upload'
           type='file'
