@@ -79,7 +79,7 @@ function FileUploader() {
       // Make the POST request using the URLs directly from the `urls` array
       // if (urls.length > 0) {
       const response = await axios.post(
-        'api',
+        'http://127.0.0.1:5000/echo',
         { url: urls[0] } // use the first URL from the array
       )
       setPrediction(response.data.prediction[0])
